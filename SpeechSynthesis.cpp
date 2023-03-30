@@ -1,34 +1,53 @@
 // SpeechSynthesis.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include <iostream>
-#include <sapi.h>
-#include <string>
+#include <memory>
+#include <exception>
+#include"BasicVoice.h"
+#include "MaleVoice.h"
+#include "FemaleVoice.h"
 
 using namespace std::string_literals;
 
 int main()
 {
     std::cout << "Hello World!\n";
-    ISpVoice* pVoice = nullptr;
-    HRESULT hr;
-    std::wstring input;
-    auto a = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-    if (FAILED(a))
+    std::unique_ptr<BasicVoice> b1{nullptr};
+    try
     {
-        std::cout << "ERROR 404 FAILED INITIALIZING COM\n";
-        exit(1);
+        int choice;
+        do {
+            std::cout << "1 to Output in Male Voice \n2 to Output in Female Voice\n";
+            std::cin >> choice;
+            switch (choice)
+            {
+            case 1:
+                b1 = std::make_unique<MaleVoice>(); //  we create a new malevoice object.
+                b1->setSpeech();
+                b1->outSpeech();
+                break;
+            case 2:
+                b1 = std::make_unique<FemaleVoice>();// we create a new femalevoice
+                b1->setSpeech();
+                b1->outSpeech();
+                break;
+            case 3:
+                b1 = std::make_unique<FemaleVoice>();
+                b1->byeSpeech();
+                b1->outSpeech();
+                break;
+            default:
+                break;
+            }
+        } while (choice != 3);
+        system("pause");
     }
-    //HRESULT CoInitializeEx(LPVOID pvReserved, DWORD dwCoInit);
-    hr = CoCreateInstance(CLSID_SpVoice, nullptr, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void**>(&pVoice));
-
-    if (SUCCEEDED(hr))
+    catch (std::exception e)
     {
-        std::getline(std::wcin, input);
-        hr = pVoice->Speak(input.c_str(), 0, nullptr);
-        pVoice->Release();
-        pVoice = nullptr;
+        std::cerr << e.what() << '\n';
+        return 1;
     }
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

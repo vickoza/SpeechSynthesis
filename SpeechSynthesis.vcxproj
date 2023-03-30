@@ -128,10 +128,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicVoice.cpp" />
+    <ClCompile Include="FemaleVoice.cpp" />
+    <ClCompile Include="MaleVoice.cpp" />
     <ClCompile Include="SpeechSynthesis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BasicVoice.h" />
+    <ClInclude Include="FemaleVoice.h" />
+    <ClInclude Include="MaleVoice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
